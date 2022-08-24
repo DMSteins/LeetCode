@@ -8,7 +8,38 @@
 </head>
 <body>
     <script>
-        
+        var updateMatrix = function(mat) {
+            const m = mat.length
+            const n = mat[0].length
+            let seenMat = new Array(m).fill(0).map(v=>new Array(n).fill(false))
+            console.log(m,n,seenMat)
+            const complateMat = []
+            for(let i = 0; i < m; i++){
+                for(let j = 0; j < n; j++){
+                    if(mat[i][j] === 0){
+                        console.log(i,j)
+                        complateMat.push([i, j])
+                        seenMat[i][j] = true
+                    }
+                }
+            }
+            console.log(seenMat, JSON.stringify(complateMat))
+            return 11
+            while(complateMat.length > 0){
+                const [i, j] = complateMat.pop()
+                for(let [x, y] of [[1,0],[-1,0],[0,1],[0,-1]]){
+                    const ki = i + x;
+                    const kj = j + y;
+                    if(ki >= 0 && ki < m && kj >= 0 && kj < n && !seenMat[ki][kj]){
+                        mat[ki][kj] = mat[i][j] + 1
+                        complateMat.unshift([ki,kj])
+                        seenMat[ki][kj] = true
+                    }
+                }
+            }
+            return mat
+        };
+        updateMatrix([[0,0,0],[0,1,0],[1,1,1]])
     </script>
 </body>
 </html>
