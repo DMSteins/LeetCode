@@ -8,38 +8,54 @@
 </head>
 <body>
     <script>
-        var updateMatrix = function(mat) {
-            const m = mat.length
-            const n = mat[0].length
-            let seenMat = new Array(m).fill(0).map(v=>new Array(n).fill(false))
-            console.log(m,n,seenMat)
-            const complateMat = []
+        /**
+         * @param {number[][]} grid
+         * @return {number}
+         */
+        var orangesRotting = function(grid) {
+            const rots = []
+            const m = grid.length
+            const n = grid[0].length
             for(let i = 0; i < m; i++){
                 for(let j = 0; j < n; j++){
-                    if(mat[i][j] === 0){
-                        console.log(i,j)
-                        complateMat.push([i, j])
-                        seenMat[i][j] = true
+                    if(grid[i][j] === 2){
+                        rots.push([i,j])
                     }
                 }
             }
-            console.log(seenMat, JSON.stringify(complateMat))
-            return 11
-            while(complateMat.length > 0){
-                const [i, j] = complateMat.pop()
-                for(let [x, y] of [[1,0],[-1,0],[0,1],[0,-1]]){
-                    const ki = i + x;
-                    const kj = j + y;
-                    if(ki >= 0 && ki < m && kj >= 0 && kj < n && !seenMat[ki][kj]){
-                        mat[ki][kj] = mat[i][j] + 1
-                        complateMat.unshift([ki,kj])
-                        seenMat[ki][kj] = true
+            
+            let rotlen = rots.length
+            let minu = 0
+            while(rots.length > 0){
+                rotlen -= 1
+                const [i,j] = rots.pop()
+                for(let [x,y] of [[1,0],[-1,0],[0,1],[0,-1]]){
+                    const ki = i + x
+                    const kj = j + y
+                    if(ki >= 0 && kj >= 0 && ki < m && kj < n && grid[ki][kj] === 1){
+                        grid[ki][kj] = 2
+                        rots.unshift([ki,kj])
+                    }
+                }
+                
+                if(rotlen <= 0){
+                    rotlen = rots.length
+                    if(rotlen > 0){
+                        minu += 1
                     }
                 }
             }
-            return mat
+            for(let i = 0; i < m; i++){
+                for(let j = 0; j < n; j++){
+                    if(grid[i][j] === 1){
+                        return -1
+                    }
+                }
+            }
+
+            return minu
         };
-        updateMatrix([[0,0,0],[0,1,0],[1,1,1]])
+        orangesRotting([[2,1,1],[1,1,0],[0,1,1]])
     </script>
 </body>
 </html>
