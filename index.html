@@ -9,53 +9,32 @@
 <body>
     <script>
         /**
-         * @param {number[][]} grid
-         * @return {number}
+         * @param {number} n
+         * @param {number} k
+         * @return {number[][]}
          */
-        var orangesRotting = function(grid) {
-            const rots = []
-            const m = grid.length
-            const n = grid[0].length
-            for(let i = 0; i < m; i++){
-                for(let j = 0; j < n; j++){
-                    if(grid[i][j] === 2){
-                        rots.push([i,j])
-                    }
-                }
-            }
-            
-            let rotlen = rots.length
-            let minu = 0
-            while(rots.length > 0){
-                rotlen -= 1
-                const [i,j] = rots.pop()
-                for(let [x,y] of [[1,0],[-1,0],[0,1],[0,-1]]){
-                    const ki = i + x
-                    const kj = j + y
-                    if(ki >= 0 && kj >= 0 && ki < m && kj < n && grid[ki][kj] === 1){
-                        grid[ki][kj] = 2
-                        rots.unshift([ki,kj])
-                    }
-                }
-                
-                if(rotlen <= 0){
-                    rotlen = rots.length
-                    if(rotlen > 0){
-                        minu += 1
-                    }
-                }
-            }
-            for(let i = 0; i < m; i++){
-                for(let j = 0; j < n; j++){
-                    if(grid[i][j] === 1){
-                        return -1
-                    }
-                }
-            }
-
-            return minu
+        var combine = function(n, k) {
+            let res = []
+            let path = []
+            dfs(n, k, 1, path, res)
+            console.log("-----", JSON.stringify(res))
+            return res
         };
-        orangesRotting([[2,1,1],[1,1,0],[0,1,1]])
+        var dfs = function(n, k, start, path, res){
+            if(path.length === k){
+                console.log("path len ", path, JSON.stringify(res))
+                res.push(path.slice())
+                return
+            }
+            for(let i = start; i <= n; i++){
+                path.push(i)
+                console.log(start, path)
+                dfs(n, k, i + 1, path, res)
+                console.log(start, path)
+                path.pop()
+            }
+        }
+        combine(4,2)
     </script>
 </body>
 </html>
