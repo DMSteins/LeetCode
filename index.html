@@ -8,33 +8,27 @@
 </head>
 <body>
     <script>
-        /**
-         * @param {number} n
-         * @param {number} k
-         * @return {number[][]}
-         */
-        var combine = function(n, k) {
-            let res = []
-            let path = []
-            dfs(n, k, 1, path, res)
-            console.log("-----", JSON.stringify(res))
-            return res
+        var rob = function(nums) {
+            // f(x) = max(f(x-1), f(x-2) + nums[x])
+            //f(0) = nums[0]
+            //f(1) = nums[1]
+            //f(2) = max(f(1), f(0) + nums[2])
+            let p = 0, q = 0, r = nums[0]
+            // 0 : 0 0 2
+            // 1: 0 2 1
+            
+            for(let i = 1; i < nums.length; i++){
+                console.log(p, q, r)
+                console.log("-----------")
+                p = q
+                q = r
+                r = Math.max(p + nums[i], q)
+                console.log(p, q, r)
+                console.log("***********")
+            }
+            return r
         };
-        var dfs = function(n, k, start, path, res){
-            if(path.length === k){
-                console.log("path len ", path, JSON.stringify(res))
-                res.push(path.slice())
-                return
-            }
-            for(let i = start; i <= n; i++){
-                path.push(i)
-                console.log(start, path)
-                dfs(n, k, i + 1, path, res)
-                console.log(start, path)
-                path.pop()
-            }
-        }
-        combine(4,2)
+        rob([4,2])
     </script>
 </body>
 </html>
