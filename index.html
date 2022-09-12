@@ -8,27 +8,30 @@
 </head>
 <body>
     <script>
-        var rob = function(nums) {
-            // f(x) = max(f(x-1), f(x-2) + nums[x])
-            //f(0) = nums[0]
-            //f(1) = nums[1]
-            //f(2) = max(f(1), f(0) + nums[2])
-            let p = 0, q = 0, r = nums[0]
-            // 0 : 0 0 2
-            // 1: 0 2 1
-            
-            for(let i = 1; i < nums.length; i++){
-                console.log(p, q, r)
-                console.log("-----------")
-                p = q
-                q = r
-                r = Math.max(p + nums[i], q)
-                console.log(p, q, r)
-                console.log("***********")
+        /**
+         * @param {number[]} nums
+         * @return {number}
+         */
+        var findRepeatNumber = function(nums) {
+            let test = 0
+            let i = 0
+            while(i < nums.length){
+                if(nums[i] === i){
+                    i++
+                    continue
+                }
+                if(nums[nums[i]] === nums[i]) return nums[i]
+                let temp = nums[nums[i]]
+                nums[nums[i]] = nums[i]
+                nums[i] = temp
+                // [nums[nums[i]], nums[i]] = [nums[i], nums[nums[i]]]
+                console.log(i, JSON.stringify(nums))
+                test++
+                if(test > 1000) return -1
             }
-            return r
+            return -1
         };
-        rob([4,2])
+        findRepeatNumber([2, 3, 1, 0, 2, 5, 3])
     </script>
 </body>
 </html>
