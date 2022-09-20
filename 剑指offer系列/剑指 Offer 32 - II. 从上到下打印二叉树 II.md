@@ -9,11 +9,41 @@
 
 #### 解法思路
 ```
-
+广度优先搜索
 ```
 
 #### 题解
 
 ```JavaScript
-
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number[][]}
+ */
+var levelOrder = function(root) {
+    if(!root) return []
+    let stack = [root]
+    let itemStack = []
+    const res = []
+    let itemRes = []
+    while(stack.length > 0 || itemStack.length > 0){
+        const node = stack.shift()
+        if(node.left) itemStack.push(node.left)
+        if(node.right) itemStack.push(node.right)
+        itemRes.push(node.val)
+        if(stack.length === 0){
+            stack = itemStack
+            itemStack = []
+            res.push(itemRes)
+            itemRes = []
+        }
+    }
+    return res
+};
 ```
