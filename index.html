@@ -8,30 +8,97 @@
 </head>
 <body>
     <script>
-        /**
-         * @param {number[]} nums
-         * @return {number}
-         */
-        var findRepeatNumber = function(nums) {
-            let test = 0
-            let i = 0
-            while(i < nums.length){
-                if(nums[i] === i){
-                    i++
-                    continue
-                }
-                if(nums[nums[i]] === nums[i]) return nums[i]
-                let temp = nums[nums[i]]
-                nums[nums[i]] = nums[i]
-                nums[i] = temp
-                // [nums[nums[i]], nums[i]] = [nums[i], nums[nums[i]]]
-                console.log(i, JSON.stringify(nums))
-                test++
-                if(test > 1000) return -1
-            }
-            return -1
-        };
-        findRepeatNumber([2, 3, 1, 0, 2, 5, 3])
+        var ListNode = function(val, next){
+    this.val = val === undefined ? 0 : val
+    this.next = null === undefined ? null : next
+}
+var MyLinkedList = function() {
+    this.size = 0
+    this.prevHead = new ListNode()
+};
+
+/** 
+ * @param {number} index
+ * @return {number}
+ */
+MyLinkedList.prototype.get = function(index) {
+    if(index < 0 || index >= this.size) return -1
+    let node = this.prevHead
+    for(let i = 0; i <= index; i++){
+        node = node.next
+    }
+    // let i = 0
+    // while(i <= index){
+    //     node = node.next
+    //     i++
+    // }
+    return node.val
+};
+
+/** 
+ * @param {number} val
+ * @return {void}
+ */
+MyLinkedList.prototype.addAtHead = function(val) {
+    this.addAtIndex(0, val)
+};
+
+/** 
+ * @param {number} val
+ * @return {void}
+ */
+MyLinkedList.prototype.addAtTail = function(val) {
+    this.addAtIndex(this.size, val)
+};
+
+/** 
+ * @param {number} index 
+ * @param {number} val
+ * @return {void}
+ */
+MyLinkedList.prototype.addAtIndex = function(index, val) {
+    if(index > this.size) return
+    index = Math.max(0, index)
+    let prev = this.prevHead
+    for(let i = 0; i < index; i++){
+        prev = prev.next
+    }
+    let node = new ListNode(val)
+    node.next = prev.next
+    prev.next = node
+    this.size++
+};
+
+/** 
+ * @param {number} index
+ * @return {void}
+ */
+MyLinkedList.prototype.deleteAtIndex = function(index) {
+    if(index < 0 || index >= this.size) return
+    let prev = this.prevHead
+    for(let i = 0; i < index; i++){
+        prev = prev.next
+    }
+    prev.next = prev.next.next
+    this.size--
+};
+
+/**
+ * Your MyLinkedList object will be instantiated and called as such:
+ * var obj = new MyLinkedList()
+ * var param_1 = obj.get(index)
+ * obj.addAtHead(val)
+ * obj.addAtTail(val)
+ * obj.addAtIndex(index,val)
+ * obj.deleteAtIndex(index)
+ */
+        let node = new MyLinkedList()
+        node.addAtHead(1)
+        console.log("**********")
+        console.log(node)
+        node.addAtTail(3)
+        console.log("**********")
+        console.log(node)
     </script>
 </body>
 </html>
